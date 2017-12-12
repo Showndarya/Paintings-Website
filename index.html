@@ -1,97 +1,24 @@
 <html>
 <head>
+      <title>Amature Paintings</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="index.css">
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
-<style>
-body
-{
-  background: #fff7cc;
-}
-#photos {
-  /* Prevent vertical gaps */
-  line-height: 0;
-   
-  -webkit-column-count: 5;
-  -webkit-column-gap:   0px;
-  -moz-column-count:    5;
-  -moz-column-gap:      0px;
-  column-count:         5;
-  column-gap:           0px;  
-}
-
-#photos img {
-  /* Just in case there are inline attributes */
-  width: 100% !important;
-  height: auto !important;
-}
-@media (max-width: 1200px) {
-  #photos {
-  -moz-column-count:    4;
-  -webkit-column-count: 4;
-  column-count:         4;
-  }
-}
-@media (max-width: 1000px) {
-  #photos {
-  -moz-column-count:    3;
-  -webkit-column-count: 3;
-  column-count:         3;
-  }
-}
-@media (max-width: 800px) {
-  #photos {
-  -moz-column-count:    2;
-  -webkit-column-count: 2;
-  column-count:         2;
-  }
-}
-@media (max-width: 400px) {
-  #photos {
-  -moz-column-count:    1;
-  -webkit-column-count: 1;
-  column-count:         1;
-  }
-}
-
-.topnav {
-  overflow: auto;
-  background-color: #333;
-  margin: 0px;
-}
-
-.topnav a {
-  float: left;
-  color: #fff;
-  text-align: center;
-  padding: 10px 12px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color: #fff;
-  color: #333;
-}
-
-.topnav a.active {
-  background-color: #ff5700;
-  color: white;
-}
-
-.modal{
-   overflow:auto !important;
-}
-</style>
+      <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+      <script type="text/javascript" src="index.js"></script>
 </head>
+
 <body>
+
 <div class="topnav">
   <a href="" id="about" class="about">About</a>
   <h4 align="center" style="color:#fff;"> Amature Paintings </h3>
 </div>
+
   <section id="photos">
 
   <a href="" class="pop"><img id="1" src="https://i.imgur.com/8rtrow0.jpg" alt="EVOLUTION - Unity in diversity - Human and Animals "></a>
@@ -219,62 +146,5 @@ body
 </div>
 
  </section>
-  <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDEndfc2n4lPlwDn6qgRX_iaN6bO2n5ZXk",
-    authDomain: "amature-paintings.firebaseapp.com",
-    databaseURL: "https://amature-paintings.firebaseio.com",
-    projectId: "amature-paintings",
-    storageBucket: "",
-    messagingSenderId: "42233765300"
-  };
-  firebase.initializeApp(config);
-</script>
-<script type="text/javascript">
-
-  $(document).ready(function(){
-    $(document).on('click','.about',function(e) {
-      e.preventDefault();
-      $('#aboutmodal').modal('show'); 
-    });   
-});
-
- $(document).ready(function(){
-    $(document).on('click','.pop',function(e) {
-      e.preventDefault();
-      $('.like').attr('id', $(this).find('img').attr('id'));
-      $('.imgdwn').attr('href', $(this).find('img').attr('src'));
-      $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-      sl();
-      $('.cap').html($(this).find('img').attr('alt'));
-      $('#imagemodal').modal('show'); 
-    });   
-});
-function sl()
-{
-  var id = $('.like').attr('id');
-  var lc = firebase.database().ref(id+'/Likes/');
-  lc.once('value').then(function(snapshot) {
-      $('#like').html(snapshot.val());
-    });
-}
-function rd()
- {
-  var id = $('.like').attr('id');
-  var lc = firebase.database().ref(id+'/Likes/');
-  lc.once('value').then(function(snapshot) {
-      wd(snapshot.val(),id);
-      //console.log(snapshot.val());
-    });
- }
-function wd(likes,id) {
-  firebase.database().ref(id+'/').set({
-      Likes:likes +1,
-    });
-  sl();
-}
-</script>
 </body>
 </html>
